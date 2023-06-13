@@ -157,5 +157,3 @@ And you also need to overload the following operators, partly corresponding to t
 - Prepare full coverage of library functions code with unit-tests using the GTest library
 - Provide a Makefile for building the library and tests (with targets all, clean, test, s21_matrix_oop.a)
 
-
-💡 [Tap here](https://forms.yandex.ru/cloud/64181a0deb614624afcee6b5/) **to leave your feedback on the project**. Pedago Team really tries to make your educational experience better.
