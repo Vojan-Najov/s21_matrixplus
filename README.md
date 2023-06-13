@@ -1,2 +1,2 @@
 # s21_matrixplus
-Implementation of the s21_matrix_oop.h library.
+Implementation of the matrix library using the object-oriented approach.
