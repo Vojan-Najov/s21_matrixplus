@@ -1,14 +1,15 @@
-#include <cstring.h>
-#include <cmath.h>
+#include <cstring>
+#include <cmath>
 #include <utility>
+#include <stdexcept>
 
 #include "s21_matrix_oop.h"
 
 S21Matrix::S21Matrix(void)
 	: _rows(S21_MATRIX_DEFAULT_ROWS), _cols(S21_MATRIX_DEFAULT_COLS)
 {
-	_allocateArray(S21_MATRIX_DEFAULT_ROWS, S21_MATRIX_DEFAULT_COLS);
-	_resetArray();
+	_allocateMatrix(S21_MATRIX_DEFAULT_ROWS, S21_MATRIX_DEFAULT_COLS);
+	_resetMatrix();
 }
 
 S21Matrix::S21Matrix(int rows, int cols)
@@ -21,8 +22,8 @@ S21Matrix::S21Matrix(int rows, int cols)
 		throw std::invalid_argument("The number of columns is less than 1.");
 	}
 
-	_allocateArray(rows, cols);
-	memset(_matrix[0], 0, rows * cols * sizeof(double));
+	_allocateMatrix(rows, cols);
+	_resetMatrix();
 }
 
 S21Matrix::S21Matrix(const S21Matrix& other)
@@ -32,7 +33,7 @@ S21Matrix::S21Matrix(const S21Matrix& other)
 	_copyMatrix(other);
 }
 
-S21Matrix(S21Matrix&& other)
+S21Matrix::S21Matrix(S21Matrix&& other)
 	: _rows(other._rows), _cols(other._cols), _matrix(other._matrix)
 {
 	other._rows = 0;
@@ -92,7 +93,7 @@ void S21Matrix::SubMatrix(const S21Matrix& other)
 	}
 }
 
-void S21Matrix::MulMatrix(double num)
+void S21Matrix::MulMatrix(double num) noexcept
 {
 	for (int i = 0; i < _rows; ++i) {
 		for (int j = 0; j < _cols; ++j) {
@@ -112,7 +113,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other)
 	for (int i = 0; i < _rows; ++i) {
 		for (int j = 0; j < _cols; ++j) {
 			for (int k = 0; k < _cols; ++k) {
-				tmp[i][j] += _matrix[i][k] * other._matrix[k][j];
+				tmp._matrix[i][j] += _matrix[i][k] * other._matrix[k][j];
 			}
 		}
 	}
@@ -125,7 +126,7 @@ S21Matrix S21Matrix::Transpose(void) const
 
 	for (int i = 0; i < _rows; ++i) {
 		for (int j = 0; j < _cols; ++j) {
-			tmp[j][i] = _matrix[i][j];
+			tmp._matrix[j][i] = _matrix[i][j];
 		}
 	}
 
@@ -136,7 +137,7 @@ S21Matrix S21Matrix::operator+(const S21Matrix& other) const
 {
 	S21Matrix tmp(*this);
 
-	SumMatrix(other);
+	tmp.SumMatrix(other);
 
 	return (tmp);
 }
@@ -145,7 +146,7 @@ S21Matrix S21Matrix::operator-(const S21Matrix& other) const
 {
 	S21Matrix tmp(*this);
 
-	SubMatrix(other);
+	tmp.SubMatrix(other);
 
 	return (tmp);
 }
@@ -154,7 +155,7 @@ S21Matrix S21Matrix::operator*(const S21Matrix& other) const
 {
 	S21Matrix tmp(*this);
 
-	MulMatrix(other);
+	tmp.MulMatrix(other);
 
 	return (tmp);
 }
@@ -163,7 +164,7 @@ S21Matrix S21Matrix::operator*(double num) const
 {
 	S21Matrix tmp(*this);
 
-	MulMatrix(num);
+	tmp.MulMatrix(num);
 
 	return (tmp);
 }
@@ -255,7 +256,7 @@ void S21Matrix::_clearMatrix(void)
 
 void S21Matrix::_resetMatrix(void) noexcept
 {
-	memset(_matrix[0], 0, rows * cols * sizeof(double));
+	memset(_matrix[0], 0, _rows * _cols * sizeof(double));
 }
 
 void S21Matrix::_copyMatrix(const S21Matrix& other) noexcept
@@ -263,7 +264,7 @@ void S21Matrix::_copyMatrix(const S21Matrix& other) noexcept
 	memcpy(_matrix[0], other._matrix[0], _rows * _cols * sizeof(double));
 }
 
-void S21Matrix::_swapMatrix(const S21Matrix& other) noexcept
+void S21Matrix::_swapMatrix(S21Matrix& other) noexcept
 {
 	std::swap(_rows, other._rows);
 	std::swap(_cols, other._cols);
