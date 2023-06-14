@@ -1,6 +1,14 @@
 #ifndef __S21_MATRIX_OOP_H__
 #define __S21_MATRIX_OOP_H__
 
+#ifndef S21_DEFAULT_ROWS
+#define S21_DEFAULT_ROWS 3
+#endif
+
+#ifndef S21_MATRIX_DEFAULT_COLS
+#define S21_MATRIX_DEFAULT_COLS 3
+#endif
+
 class S21Matrix {
   public:
 	S21Matrix(void);
@@ -36,6 +44,8 @@ class S21Matrix {
 	int _rows;
 	int _cols;
 	double **_matrix;
+
+	void _allocate(int rows, int cols);
 };
 
 #endif
