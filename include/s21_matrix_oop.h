@@ -9,22 +9,33 @@ class S21Matrix {
 	S21Matrix(S21Matrix&& other);
 	~S21Matrix(void);
 
-	bool EqMatrix(const S21Matrix& other);
+	bool EqMatrix(const S21Matrix& other) const;
 	void SumMatrix(const S21Matrix& other);
 	void SubMatrix(const S21Matrix& other);
 	void MulMatrix(const double num);
 	void MulMatrix(const S21Matrix& other);
-	S21Matrix Transpose(void);
-	S21Matrix CalcComplements(void);
-	double Determinant(void);
-	S21Matrix InverseMatrix(void);
+	S21Matrix Transpose(void) const;
+	S21Matrix CalcComplements(void) const;
+	double Determinant(void) const;
+	S21Matrix InverseMatrix(void) const;
 
-	
+	S21Matrix operator+(const S21Matrix& other) const;
+	S21Matrix operator-(const S21Matrix& other) const;
+	S21Matrix operator*(const S21Matrix& other) const;
+	S21Matrix operator*(double num) const;
+	bool operator==(const S21Matrix& other) const;
+	S21Matrix& operator=(const S21Matrix& other);
+	S21Matrix& operator+=(const S21Matrix& other);
+	S21Matrix& operator-=(const S21Matrix& other);
+	S21Matrix& operator*=(const S21Matrix& other);
+	S21Matrix& operator*=(double num);
+	const double& operator()(int i, int j) const;
+	double& operator()(int i, int j);
 	
   private:
-	int rows_;
-	int cols_;
-	double **matrix;
+	int _rows;
+	int _cols;
+	double **_matrix;
 };
 
 #endif
