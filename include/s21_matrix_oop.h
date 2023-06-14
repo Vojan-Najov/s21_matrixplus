@@ -1,8 +1,8 @@
 #ifndef __S21_MATRIX_OOP_H__
 #define __S21_MATRIX_OOP_H__
 
-#ifndef S21_DEFAULT_ROWS
-#define S21_DEFAULT_ROWS 3
+#ifndef S21_MATRIX_DEFAULT_ROWS
+#define S21_MATRIX_DEFAULT_ROWS 3
 #endif
 
 #ifndef S21_MATRIX_DEFAULT_COLS
@@ -34,7 +34,7 @@ class S21Matrix {
 	S21Matrix operator+(const S21Matrix& other) const;
 	S21Matrix operator-(const S21Matrix& other) const;
 	S21Matrix operator*(const S21Matrix& other) const;
-	S21Matrix operator*(double num) const noexcept;
+	S21Matrix operator*(double num) const;
 	bool operator==(const S21Matrix& other) const noexcept;
 	S21Matrix& operator=(const S21Matrix& other);
 	S21Matrix& operator+=(const S21Matrix& other);
@@ -53,7 +53,7 @@ class S21Matrix {
 	void _clearMatrix(void);
 	void _resetMatrix(void) noexcept;
 	void _copyMatrix(const S21Matrix& other) noexcept;
-	void _swapMatrix(const S21Matrix& other) noexcept;
+	void _swapMatrix(S21Matrix& other) noexcept;
 };
 
 #endif
