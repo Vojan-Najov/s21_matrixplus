@@ -1,20 +1,12 @@
-#ifndef __S21_MATRIX_OOP_H__
-#define __S21_MATRIX_OOP_H__
-
-#ifndef S21_MATRIX_DEFAULT_ROWS
-#define S21_MATRIX_DEFAULT_ROWS 3
-#endif
-
-#ifndef S21_MATRIX_DEFAULT_COLS
-#define S21_MATRIX_DEFAULT_COLS 3
-#endif
-
-#ifndef S21_MATRIX_EPS
-#define S21_MATRIX_EPS 1.0e-6
-#endif
+#ifndef S21_MATRIX_OOP_H_
+#define S21_MATRIX_OOP_H_
 
 class S21Matrix {
   public:
+	static const int kDefaultRows;
+	static const int kDefaultCols;
+	static const double kEps; // = 1.0e-6;
+
 	S21Matrix(void);
 	S21Matrix(int rows, int cols);
 	S21Matrix(const S21Matrix& other);
@@ -43,11 +35,16 @@ class S21Matrix {
 	S21Matrix& operator*=(double num) noexcept;
 	const double& operator()(int i, int j) const;
 	double& operator()(int i, int j);
+
+	int getRows(void) const noexcept;
+	int getCols(void) const noexcept;
+	void setRows(int rows);
+	void setCols(int cols);
 	
   private:
-	int _rows;
-	int _cols;
-	double **_matrix;
+	int rows_;
+	int cols_;
+	double **matrix_;
 
 	void _allocateMatrix(int rows, int cols);
 	void _clearMatrix(void);
@@ -56,5 +53,5 @@ class S21Matrix {
 	void _swapMatrix(S21Matrix& other) noexcept;
 };
 
-#endif
+#endif  // S21_MATRIX_OOP_H_
 
