@@ -1,10 +1,13 @@
-
 #include "s21_matrix_oop.h"
+
+#include <cstring>
+#include <cmath>
+#include <utility>
+#include <stdexcept>
 
 const int S21Matrix::kDefaultRows = 1;
 const int S21Matrix::kDefaultCols = 1;
 const double S21Matrix::kEps = 1.0e-6;
-
 
 // Constructors and Destructor.
 
@@ -48,6 +51,38 @@ S21Matrix::~S21Matrix(void)
 {
 	if (matrix_ != nullptr) {
 		_clearMatrix();
+	}
+}
+
+// Accessors and Mutators.
+
+int S21Matrix::GetRows(void) const noexcept { return (rows_); }
+
+int S21Matrix::GetCols(void) const noexcept { return (cols_); }
+
+void S21Matrix::SetRows(int rows)
+{
+	if (rows < 1) {
+		throw std::invalid_argument("The number of rows is less than one.");
+	}
+
+	if (rows != rows_) {
+		S21Matrix tmp(rows, cols_);
+		tmp._copyMatrix(*this);
+		_swapMatrix(tmp);
+	}
+}
+
+void S21Matrix::SetCols(int cols)
+{
+	if (cols < 1) {
+		throw std::invalid_argument("The number of rows is less than one.");
+	}
+
+	if (cols != cols_) {
+		S21Matrix tmp(rows_, cols);
+		tmp._copyMatrix(*this);
+		_swapMatrix(tmp);
 	}
 }
 
@@ -244,16 +279,6 @@ double& S21Matrix::operator()(int i, int j)
 	return (matrix_[i][j]);
 }
 
-// Accessors and Mutators.
-
-int S21Matrix::GetRows(void) const noexcept { return (rows_); }
-
-int S21Matrix::GetCols(void) const noexcept { return (cols_); }
-
-void S21Matrix::SetRows(int rows) { (void) rows; }
-
-void S21Matrix::SetCols(int cols) { (void) cols; }
-
 // Auxiliary private member functions.
 
 void S21Matrix::_allocateMatrix(int rows, int cols)
@@ -273,12 +298,24 @@ void S21Matrix::_clearMatrix(void)
 
 void S21Matrix::_resetMatrix(void) noexcept
 {
-	memset(matrix_[0], 0, rows_ * cols_ * sizeof(double));
+	memset(matrix_[0], 0, rows_ * cols_ * sizeof(matrix_[0][0]));
 }
 
 void S21Matrix::_copyMatrix(const S21Matrix& other) noexcept
 {
-	memcpy(matrix_[0], other.matrix_[0], rows_ * cols_ * sizeof(double));
+	int min_rows = rows_ <= other.rows_ ? rows_ : other.rows_;
+	int min_cols = cols_ <= other.cols_ ? cols_ : other.cols_;
+
+	if (cols_ == other.cols_) {
+		memcpy(matrix_[0], other.matrix_[0],
+               min_rows * min_cols * sizeof(matrix_[0][0]));
+	} else {
+		for (int i = 0; i < min_rows; ++i) {
+			for (int j = 0; j < min_cols; ++j) {
+				matrix_[i][j] = other.matrix_[i][j];
+			}
+		}
+	}
 }
 
 void S21Matrix::_swapMatrix(S21Matrix& other) noexcept
