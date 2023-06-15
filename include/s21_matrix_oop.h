@@ -1,6 +1,11 @@
 #ifndef S21_MATRIX_OOP_H_
 #define S21_MATRIX_OOP_H_
 
+#include <cstring>
+#include <cmath>
+#include <utility>
+#include <stdexcept>
+
 class S21Matrix {
   public:
 	static const int kDefaultRows;
@@ -8,7 +13,7 @@ class S21Matrix {
 	static const double kEps; // = 1.0e-6;
 
 	S21Matrix(void);
-	S21Matrix(int rows, int cols);
+	explicit S21Matrix(int rows, int cols);
 	S21Matrix(const S21Matrix& other);
 	S21Matrix(S21Matrix&& other);
 	~S21Matrix(void);
@@ -36,10 +41,10 @@ class S21Matrix {
 	const double& operator()(int i, int j) const;
 	double& operator()(int i, int j);
 
-	int getRows(void) const noexcept;
-	int getCols(void) const noexcept;
-	void setRows(int rows);
-	void setCols(int cols);
+	int GetRows(void) const noexcept;
+	int GetCols(void) const noexcept;
+	void SetRows(int rows);
+	void SetCols(int cols);
 	
   private:
 	int rows_;
