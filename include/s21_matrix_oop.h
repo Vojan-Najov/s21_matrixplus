@@ -1,11 +1,6 @@
 #ifndef S21_MATRIX_OOP_H_
 #define S21_MATRIX_OOP_H_
 
-#include <cstring>
-#include <cmath>
-#include <utility>
-#include <stdexcept>
-
 class S21Matrix {
   public:
 	static const int kDefaultRows;
