@@ -32,7 +32,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc $(INCLUDE)
 	$(CXX) $(CXX_FLAGS) -I$(INCLUDE_DIR) -o $@ -c $<
 
 $(TEST): $(TEST_OBJ) $(NAME)
-	$(CXX) -o $@ $? $(TEST_LIBS)
+	$(CXX) -g -o $@ $? $(TEST_LIBS)
 	./$(TEST)
 
 $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.cc $(INCLUDE)
