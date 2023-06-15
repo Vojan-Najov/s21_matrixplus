@@ -1,7 +1,3 @@
-#include <cstring>
-#include <cmath>
-#include <utility>
-#include <stdexcept>
 
 #include "s21_matrix_oop.h"
 
@@ -250,13 +246,13 @@ double& S21Matrix::operator()(int i, int j)
 
 // Accessors and Mutators.
 
-int S21Matrix::getRows(void) const noexcept { return (rows_); }
+int S21Matrix::GetRows(void) const noexcept { return (rows_); }
 
-int S21Matrix::getCols(void) const noexcept { return (cols_); }
+int S21Matrix::GetCols(void) const noexcept { return (cols_); }
 
-void S21Matrix::setRows(int rows) { (void) rows; }
+void S21Matrix::SetRows(int rows) { (void) rows; }
 
-void S21Matrix::setCols(int cols) { (void) cols; }
+void S21Matrix::SetCols(int cols) { (void) cols; }
 
 // Auxiliary private member functions.
 
