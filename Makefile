@@ -45,5 +45,10 @@ clean:
 	$(RMDIR) $(OBJ_DIR)
 	$(RM) $(NAME)
 
-.PHONY: all clean $(TEST)
+format:
+	cp materials/linters/.clang-format .
+	clang-format -i $(SRC) $(TEST_SRC) $(INCLUDE) $(TEST_INCLUDE)
+	rm .clang-format
+
+.PHONY: all clean $(TEST) format
 
