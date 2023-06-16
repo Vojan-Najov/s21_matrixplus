@@ -3,16 +3,23 @@
 
 class S21Matrix {
   public:
+	static const double kEps;
 	static const int kDefaultRows;
 	static const int kDefaultCols;
-	static const double kEps;
 
 	S21Matrix(void);
 	explicit S21Matrix(int rows, int cols);
 	S21Matrix(const S21Matrix& other);
 	S21Matrix(S21Matrix&& other);
+	S21Matrix& operator=(const S21Matrix& other);
+	S21Matrix& operator=(S21Matrix&& other) noexcept;
+
 	~S21Matrix(void);
 
+	int GetRows(void) const noexcept;
+	int GetCols(void) const noexcept;
+	void SetRows(int rows);
+	void SetCols(int cols);
 	bool EqMatrix(const S21Matrix& other) const noexcept;
 	void SumMatrix(const S21Matrix& other);
 	void SubMatrix(const S21Matrix& other);
@@ -28,7 +35,6 @@ class S21Matrix {
 	S21Matrix operator*(const S21Matrix& other) const;
 	S21Matrix operator*(double num) const;
 	bool operator==(const S21Matrix& other) const noexcept;
-	S21Matrix& operator=(const S21Matrix& other);
 	S21Matrix& operator+=(const S21Matrix& other);
 	S21Matrix& operator-=(const S21Matrix& other);
 	S21Matrix& operator*=(const S21Matrix& other);
@@ -36,11 +42,6 @@ class S21Matrix {
 	const double& operator()(int i, int j) const;
 	double& operator()(int i, int j);
 
-	int GetRows(void) const noexcept;
-	int GetCols(void) const noexcept;
-	void SetRows(int rows);
-	void SetCols(int cols);
-	
   private:
 	int rows_;
 	int cols_;
