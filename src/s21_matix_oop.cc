@@ -50,7 +50,8 @@ S21Matrix::S21Matrix(S21Matrix&& other)
 S21Matrix::~S21Matrix(void)
 {
 	if (matrix_ != nullptr) {
-		_clearMatrix();
+		delete [] matrix_[0];
+		delete [] matrix_;
 	}
 }
 
@@ -288,12 +289,6 @@ void S21Matrix::_allocateMatrix(int rows, int cols)
 	for (int i = 1; i < rows; ++i) {
 		matrix_[i] = matrix_[0] + i * cols_;
 	}
-}
-
-void S21Matrix::_clearMatrix(void)
-{
-	delete [] matrix_[0];
-	delete [] matrix_;
 }
 
 void S21Matrix::_resetMatrix(void) noexcept
