@@ -5,7 +5,7 @@ class S21Matrix {
   public:
 	static const int kDefaultRows;
 	static const int kDefaultCols;
-	static const double kEps; // = 1.0e-6;
+	static const double kEps;
 
 	S21Matrix(void);
 	explicit S21Matrix(int rows, int cols);
@@ -47,7 +47,6 @@ class S21Matrix {
 	double **matrix_;
 
 	void _allocateMatrix(int rows, int cols);
-	void _clearMatrix(void);
 	void _resetMatrix(void) noexcept;
 	void _copyMatrix(const S21Matrix& other) noexcept;
 	void _swapMatrix(S21Matrix& other) noexcept;
