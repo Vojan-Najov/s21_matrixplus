@@ -152,7 +152,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other)
 	}
 
 	for (int i = 0; i < rows_; ++i) {
-		for (int j = 0; j < cols_; ++j) {
+		for (int j = 0; j < other.cols_; ++j) {
 			for (int k = 0; k < cols_; ++k) {
 				tmp.matrix_[i][j] += matrix_[i][k] * other.matrix_[k][j];
 			}
@@ -173,6 +173,8 @@ S21Matrix S21Matrix::Transpose(void) const
 
 	return (tmp);
 }
+
+// Operator Overloading
 
 S21Matrix S21Matrix::operator+(const S21Matrix& other) const
 {
@@ -228,40 +230,41 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other)
 	return (*this);
 }
 
+S21Matrix& S21Matrix::operator=(S21Matrix&& other) noexcept {
+	_swapMatrix(other);
+	return(*this);
+}
+
 S21Matrix& S21Matrix::operator+=(const S21Matrix& other)
 {
 	SumMatrix(other);
-
 	return (*this);
 }
 
 S21Matrix& S21Matrix::operator-=(const S21Matrix& other)
 {
 	SubMatrix(other);
-
 	return (*this);
 }
 
 S21Matrix& S21Matrix::operator*=(double num) noexcept
 {
 	MulMatrix(num);
-
 	return (*this);
 }
 
 S21Matrix& S21Matrix::operator*=(const S21Matrix& other)
 {
 	MulMatrix(other);
-
 	return (*this);
 }
 
 const double& S21Matrix::operator()(int i, int j) const
 {
-	if (i < 0 || i > rows_) {
+	if (i < 0 || i >= rows_) {
 		throw std::out_of_range("Index outside the range of rows.");
 	}
-	if (j < 0 || j > cols_) {
+	if (j < 0 || j >= cols_) {
 		throw std::out_of_range("Index outside the range of columns.");
 	}
 
@@ -270,10 +273,10 @@ const double& S21Matrix::operator()(int i, int j) const
 
 double& S21Matrix::operator()(int i, int j)
 {
-	if (i < 0 || i > rows_) {
+	if (i < 0 || i >= rows_) {
 		throw std::out_of_range("Index outside the range of rows.");
 	}
-	if (j < 0 || j > cols_) {
+	if (j < 0 || j >= cols_) {
 		throw std::out_of_range("Index outside the range of columns.");
 	}
 
