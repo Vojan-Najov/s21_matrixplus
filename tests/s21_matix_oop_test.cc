@@ -593,13 +593,16 @@ TEST(MatrixCalcComplements, Matrix1x1) {
   S21Matrix m2(1, 1);
 
   m1(0, 0) = 0.0;
-  EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
+  S21Matrix comp1 = m1.CalcComplements();
+  EXPECT_EQ(comp1.rows(), 1);
+  EXPECT_EQ(comp1.cols(), 1);
+  EXPECT_EQ(comp1(0, 0), 1.0);
 
   m2(0, 0) = 100.0;
-  S21Matrix comp = m2.CalcComplements();
-  EXPECT_EQ(comp.rows(), 1);
-  EXPECT_EQ(comp.cols(), 1);
-  EXPECT_EQ(comp(0, 0), 1.0);
+  S21Matrix comp2 = m2.CalcComplements();
+  EXPECT_EQ(comp2.rows(), 1);
+  EXPECT_EQ(comp2.cols(), 1);
+  EXPECT_EQ(comp2(0, 0), 1.0);
 }
 
 TEST(MatrixCalcComplements, Matrix2x2) {
