@@ -1,10 +1,10 @@
+#include "s21_matrix_oop.h"
+
 #include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
 #include <utility>
-
-#include "s21_matrix_oop.h"
 
 const int S21Matrix::kDefaultRows = 1;
 const int S21Matrix::kDefaultCols = 1;
