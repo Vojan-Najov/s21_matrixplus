@@ -13,8 +13,8 @@ const double S21Matrix::kEps = 1.0e-6;
 // Constructors and Destructor.
 
 S21Matrix::S21Matrix(void) : rows_(kDefaultRows), cols_(kDefaultCols) {
-  _allocateMatrix(kDefaultRows, kDefaultCols);
-  _resetMatrix();
+  AllocateMatrix(kDefaultRows, kDefaultCols);
+  ResetMatrix();
 }
 
 S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
@@ -25,14 +25,14 @@ S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
     throw std::invalid_argument("The number of columns is less than 1.");
   }
 
-  _allocateMatrix(rows, cols);
-  _resetMatrix();
+  AllocateMatrix(rows, cols);
+  ResetMatrix();
 }
 
 S21Matrix::S21Matrix(const S21Matrix& other)
     : rows_(other.rows_), cols_(other.cols_) {
-  _allocateMatrix(rows_, cols_);
-  _copyMatrix(other);
+  AllocateMatrix(rows_, cols_);
+  CopyMatrix(other);
 }
 
 S21Matrix::S21Matrix(S21Matrix&& other) noexcept
@@ -51,31 +51,31 @@ S21Matrix::~S21Matrix(void) {
 
 // Accessors and Mutators.
 
-int S21Matrix::GetRows(void) const noexcept { return (rows_); }
+int S21Matrix::rows(void) const noexcept { return (rows_); }
 
-int S21Matrix::GetCols(void) const noexcept { return (cols_); }
+int S21Matrix::cols(void) const noexcept { return (cols_); }
 
-void S21Matrix::SetRows(int rows) {
+void S21Matrix::set_rows(int rows) {
   if (rows < 1) {
     throw std::invalid_argument("The number of rows is less than one.");
   }
 
   if (rows != rows_) {
     S21Matrix tmp(rows, cols_);
-    tmp._copyMatrix(*this);
-    _swapMatrix(tmp);
+    tmp.CopyMatrix(*this);
+    SwapMatrix(tmp);
   }
 }
 
-void S21Matrix::SetCols(int cols) {
+void S21Matrix::set_cols(int cols) {
   if (cols < 1) {
     throw std::invalid_argument("The number of rows is less than one.");
   }
 
   if (cols != cols_) {
     S21Matrix tmp(rows_, cols);
-    tmp._copyMatrix(*this);
-    _swapMatrix(tmp);
+    tmp.CopyMatrix(*this);
+    SwapMatrix(tmp);
   }
 }
 
@@ -145,7 +145,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
       }
     }
   }
-  _swapMatrix(tmp);
+  SwapMatrix(tmp);
 }
 
 S21Matrix S21Matrix::Transpose(void) const {
@@ -267,9 +267,9 @@ bool S21Matrix::operator==(const S21Matrix& other) const noexcept {
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
   if (this != &other) {
     if (rows_ != other.rows_ || cols_ != other.cols_) {
-      S21Matrix(other)._swapMatrix(*this);
+      S21Matrix(other).SwapMatrix(*this);
     } else {
-      _copyMatrix(other);
+      CopyMatrix(other);
     }
   }
 
@@ -277,7 +277,7 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
 }
 
 S21Matrix& S21Matrix::operator=(S21Matrix&& other) noexcept {
-  _swapMatrix(other);
+  SwapMatrix(other);
   return (*this);
 }
 
@@ -325,7 +325,7 @@ double& S21Matrix::operator()(int i, int j) {
 
 // Auxiliary private member functions.
 
-void S21Matrix::_allocateMatrix(int rows, int cols) {
+void S21Matrix::AllocateMatrix(int rows, int cols) {
   matrix_ = new double*[rows];
   matrix_[0] = new double[rows * cols];
   for (int i = 1; i < rows; ++i) {
@@ -333,11 +333,11 @@ void S21Matrix::_allocateMatrix(int rows, int cols) {
   }
 }
 
-void S21Matrix::_resetMatrix(void) noexcept {
+void S21Matrix::ResetMatrix(void) noexcept {
   memset(matrix_[0], 0, rows_ * cols_ * sizeof(matrix_[0][0]));
 }
 
-void S21Matrix::_copyMatrix(const S21Matrix& other) noexcept {
+void S21Matrix::CopyMatrix(const S21Matrix& other) noexcept {
   int min_rows = std::min(rows_, other.rows_);
   int min_cols = std::min(cols_, other.cols_);
 
@@ -353,7 +353,7 @@ void S21Matrix::_copyMatrix(const S21Matrix& other) noexcept {
   }
 }
 
-void S21Matrix::_swapMatrix(S21Matrix& other) noexcept {
+void S21Matrix::SwapMatrix(S21Matrix& other) noexcept {
   std::swap(rows_, other.rows_);
   std::swap(cols_, other.cols_);
   std::swap(matrix_, other.matrix_);
