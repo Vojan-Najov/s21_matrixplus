@@ -16,10 +16,10 @@ class S21Matrix {
 
   ~S21Matrix(void);
 
-  int GetRows(void) const noexcept;
-  int GetCols(void) const noexcept;
-  void SetRows(int rows);
-  void SetCols(int cols);
+  int rows(void) const noexcept;
+  int cols(void) const noexcept;
+  void set_rows(int rows);
+  void set_cols(int cols);
   bool EqMatrix(const S21Matrix& other) const noexcept;
   void SumMatrix(const S21Matrix& other);
   void SubMatrix(const S21Matrix& other);
@@ -47,10 +47,10 @@ class S21Matrix {
   int cols_;
   double** matrix_;
 
-  void _allocateMatrix(int rows, int cols);
-  void _resetMatrix(void) noexcept;
-  void _copyMatrix(const S21Matrix& other) noexcept;
-  void _swapMatrix(S21Matrix& other) noexcept;
+  void AllocateMatrix(int rows, int cols);
+  void ResetMatrix(void) noexcept;
+  void CopyMatrix(const S21Matrix& other) noexcept;
+  void SwapMatrix(S21Matrix& other) noexcept;
   S21Matrix Minor(int row, int col) const;
 };
 
