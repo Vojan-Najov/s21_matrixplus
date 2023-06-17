@@ -51,6 +51,8 @@ class S21Matrix {
   void _resetMatrix(void) noexcept;
   void _copyMatrix(const S21Matrix& other) noexcept;
   void _swapMatrix(S21Matrix& other) noexcept;
+  S21Matrix Minor(int row, int col) const;
 };
 
 #endif  // S21_MATRIX_OOP_H_
+
