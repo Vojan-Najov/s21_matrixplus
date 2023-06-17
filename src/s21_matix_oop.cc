@@ -164,10 +164,6 @@ S21Matrix S21Matrix::CalcComplements(void) const {
   if (rows_ != cols_) {
     throw std::invalid_argument("The matrix is not square.");
   }
-  if (rows_ == 1 && fabs(matrix_[0][0]) < kEps) {
-    throw std::invalid_argument(
-        "There is no complements matrix to the zero unit matrix.");
-  }
 
   S21Matrix complements(rows_, cols_);
   if (rows_ == 1) {
