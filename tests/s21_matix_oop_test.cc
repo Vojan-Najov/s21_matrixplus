@@ -9,8 +9,8 @@
 TEST(MatrixConstructorDestructor, DefaultConstructor) {
   S21Matrix m;
 
-  EXPECT_EQ(m.GetRows(), S21Matrix::kDefaultRows);
-  EXPECT_EQ(m.GetCols(), S21Matrix::kDefaultCols);
+  EXPECT_EQ(m.rows(), S21Matrix::kDefaultRows);
+  EXPECT_EQ(m.cols(), S21Matrix::kDefaultCols);
   for (int i = 0; i < S21Matrix::kDefaultRows; ++i) {
     for (int j = 0; j < S21Matrix::kDefaultCols; ++j) {
       EXPECT_EQ(m(i, j), 0.0);
@@ -23,8 +23,8 @@ TEST(MatrixConstructorDestructor, ConvertingConstructor) {
   int cols = 87;
   S21Matrix m(rows, cols);
 
-  EXPECT_EQ(m.GetRows(), rows);
-  EXPECT_EQ(m.GetCols(), cols);
+  EXPECT_EQ(m.rows(), rows);
+  EXPECT_EQ(m.cols(), cols);
 
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
@@ -65,8 +65,8 @@ TEST(MatrixConstructorDestructor, CopyConstructor) {
   }
 
   S21Matrix copy(m);
-  EXPECT_EQ(m.GetRows(), copy.GetRows());
-  EXPECT_EQ(m.GetCols(), copy.GetCols());
+  EXPECT_EQ(m.rows(), copy.rows());
+  EXPECT_EQ(m.cols(), copy.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m(i, j), copy(i, j));
@@ -87,10 +87,10 @@ TEST(MatrixConstructorDestructor, MoveConstructor) {
 
   S21Matrix copy(m);
   S21Matrix move = S21Matrix(std::move(copy));
-  EXPECT_EQ(m.GetRows(), move.GetRows());
-  EXPECT_EQ(m.GetCols(), move.GetCols());
-  EXPECT_EQ(copy.GetRows(), 0);
-  EXPECT_EQ(copy.GetCols(), 0);
+  EXPECT_EQ(m.rows(), move.rows());
+  EXPECT_EQ(m.cols(), move.cols());
+  EXPECT_EQ(copy.rows(), 0);
+  EXPECT_EQ(copy.cols(), 0);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m(i, j), move(i, j));
@@ -105,8 +105,8 @@ TEST(MatrixAccessorMutator, RowsColsAccessor) {
   int cols = 249;
 
   S21Matrix m(rows, cols);
-  EXPECT_EQ(m.GetRows(), rows);
-  EXPECT_EQ(m.GetCols(), cols);
+  EXPECT_EQ(m.rows(), rows);
+  EXPECT_EQ(m.cols(), cols);
 }
 
 TEST(MatrixAccessorMutator, GreaterRowsMutator) {
@@ -122,8 +122,8 @@ TEST(MatrixAccessorMutator, GreaterRowsMutator) {
   }
 
   S21Matrix m2(m1);
-  m2.SetRows(new_rows);
-  EXPECT_EQ(m2.GetRows(), new_rows);
+  m2.set_rows(new_rows);
+  EXPECT_EQ(m2.rows(), new_rows);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m2(i, j), m1(i, j)) << "i = " << i << "  j = " << j;
@@ -149,8 +149,8 @@ TEST(MatrixAccessorMutator, LessRowsMutator) {
   }
 
   S21Matrix m2(m1);
-  m2.SetRows(new_rows);
-  EXPECT_EQ(m2.GetRows(), new_rows);
+  m2.set_rows(new_rows);
+  EXPECT_EQ(m2.rows(), new_rows);
   for (int i = 0; i < new_rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m2(i, j), m1(i, j)) << "i = " << i << "  j = " << j;
@@ -170,8 +170,8 @@ TEST(MatrixAccessorMutator, EqualRowsMutator) {
   }
 
   S21Matrix m2(m1);
-  m2.SetRows(rows);
-  EXPECT_EQ(m2.GetRows(), rows);
+  m2.set_rows(rows);
+  EXPECT_EQ(m2.rows(), rows);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m2(i, j), m1(i, j)) << "i = " << i << "  j = " << j;
@@ -185,9 +185,9 @@ TEST(MatrixAccessorMutator, BadRowsMutator) {
 
   int new_rows = 0;
   S21Matrix m(rows, cols);
-  EXPECT_THROW(m.SetRows(new_rows), std::invalid_argument);
+  EXPECT_THROW(m.set_rows(new_rows), std::invalid_argument);
   new_rows = -16;
-  EXPECT_THROW(m.SetRows(new_rows), std::invalid_argument);
+  EXPECT_THROW(m.set_rows(new_rows), std::invalid_argument);
 }
 
 TEST(MatrixAccessorMutator, GreaterColsMutator) {
@@ -203,8 +203,8 @@ TEST(MatrixAccessorMutator, GreaterColsMutator) {
   }
 
   S21Matrix m2(m1);
-  m2.SetCols(new_cols);
-  EXPECT_EQ(m2.GetCols(), new_cols);
+  m2.set_cols(new_cols);
+  EXPECT_EQ(m2.cols(), new_cols);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m2(i, j), m1(i, j)) << "i = " << i << "  j = " << j;
@@ -230,8 +230,8 @@ TEST(MatrixAccessorMutator, LessColsMutator) {
   }
 
   S21Matrix m2(m1);
-  m2.SetCols(new_cols);
-  EXPECT_EQ(m2.GetCols(), new_cols);
+  m2.set_cols(new_cols);
+  EXPECT_EQ(m2.cols(), new_cols);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < new_cols; ++j) {
       EXPECT_EQ(m2(i, j), m1(i, j)) << "i = " << i << "  j = " << j;
@@ -251,8 +251,8 @@ TEST(MatrixAccessorMutator, EqualColsMutator) {
   }
 
   S21Matrix m2(m1);
-  m2.SetCols(cols);
-  EXPECT_EQ(m2.GetCols(), cols);
+  m2.set_cols(cols);
+  EXPECT_EQ(m2.cols(), cols);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m2(i, j), m1(i, j)) << "i = " << i << "  j = " << j;
@@ -266,9 +266,9 @@ TEST(MatrixAccessorMutator, BadColsMutator) {
 
   int new_cols = 0;
   S21Matrix m(rows, cols);
-  EXPECT_THROW(m.SetCols(new_cols), std::invalid_argument);
+  EXPECT_THROW(m.set_cols(new_cols), std::invalid_argument);
   new_cols = -16;
-  EXPECT_THROW(m.SetCols(new_cols), std::invalid_argument);
+  EXPECT_THROW(m.set_cols(new_cols), std::invalid_argument);
 }
 
 // Tests for EqMatrix
@@ -304,8 +304,8 @@ TEST(MatrixEq, Equal) {
   EXPECT_EQ(m1.EqMatrix(m2), true);
   EXPECT_EQ(m2.EqMatrix(m1), true);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = m2(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
@@ -317,8 +317,8 @@ TEST(MatrixEq, NotEqual) {
   S21Matrix m1(12, 14);
   S21Matrix m2(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = m2(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
@@ -327,7 +327,7 @@ TEST(MatrixEq, NotEqual) {
   EXPECT_EQ(m1.EqMatrix(m2), false);
   EXPECT_EQ(m2.EqMatrix(m1), false);
   m1(2, 5) = m2(2, 5);
-  m1(m1.GetRows() - 1, m1.GetCols() - 1) -= 0.0001;
+  m1(m1.rows() - 1, m1.cols() - 1) -= 0.0001;
   EXPECT_EQ(m1.EqMatrix(m2), false);
   EXPECT_EQ(m2.EqMatrix(m1), false);
 }
@@ -483,8 +483,8 @@ TEST(MatrixMulMatrix, SquareMatrices) {
   }
 
   m1.MulMatrix(m2);
-  EXPECT_EQ(m1.GetRows(), m3.GetRows());
-  EXPECT_EQ(m1.GetCols(), m3.GetCols());
+  EXPECT_EQ(m1.rows(), m3.rows());
+  EXPECT_EQ(m1.cols(), m3.cols());
   for (int i = 0; i < 3; ++i) {
     for (int j = 0; j < 3; ++j) {
       EXPECT_NEAR(m1(i, j), m3(i, j), S21Matrix::kEps);
@@ -523,10 +523,10 @@ TEST(MatrixMulMatrix, RectangleMatrices) {
   }
 
   m1.MulMatrix(m2);
-  EXPECT_EQ(m1.GetRows(), m3.GetRows());
-  EXPECT_EQ(m1.GetCols(), m3.GetCols());
-  for (int i = 0; i < m3.GetRows(); ++i) {
-    for (int j = 0; j < m3.GetCols(); ++j) {
+  EXPECT_EQ(m1.rows(), m3.rows());
+  EXPECT_EQ(m1.cols(), m3.cols());
+  for (int i = 0; i < m3.rows(); ++i) {
+    for (int j = 0; j < m3.cols(); ++j) {
       EXPECT_NEAR(m1(i, j), m3(i, j), S21Matrix::kEps);
     }
   }
@@ -546,8 +546,8 @@ TEST(MatrixTranspose, SquareMatrix) {
     }
   }
   S21Matrix m3(m1.Transpose());
-  EXPECT_EQ(m1.GetRows(), m3.GetCols());
-  EXPECT_EQ(m1.GetCols(), m3.GetRows());
+  EXPECT_EQ(m1.rows(), m3.cols());
+  EXPECT_EQ(m1.cols(), m3.rows());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m1(i, j), m3(j, i));
@@ -572,8 +572,8 @@ TEST(MatrixTranspose, RectangleMatrix) {
     }
   }
   S21Matrix m3(m1.Transpose());
-  EXPECT_EQ(m1.GetRows(), m3.GetCols());
-  EXPECT_EQ(m1.GetCols(), m3.GetRows());
+  EXPECT_EQ(m1.rows(), m3.cols());
+  EXPECT_EQ(m1.cols(), m3.rows());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m1(i, j), m3(j, i));
@@ -597,8 +597,8 @@ TEST(MatrixCalcComplements, Matrix1x1) {
 
   m2(0, 0) = 100.0;
   S21Matrix comp = m2.CalcComplements();
-  EXPECT_EQ(comp.GetRows(), 1);
-  EXPECT_EQ(comp.GetCols(), 1);
+  EXPECT_EQ(comp.rows(), 1);
+  EXPECT_EQ(comp.cols(), 1);
   EXPECT_EQ(comp(0, 0), 1.0);
 }
 
@@ -799,8 +799,8 @@ TEST(MatrixInverse, Matrix1x1) {
   S21Matrix m(1, 1);
   m(0, 0) = a;
   S21Matrix inverse = m.InverseMatrix();
-  EXPECT_EQ(inverse.GetRows(), m.GetRows());
-  EXPECT_EQ(inverse.GetCols(), m.GetCols());
+  EXPECT_EQ(inverse.rows(), m.rows());
+  EXPECT_EQ(inverse.cols(), m.cols());
   EXPECT_NEAR(inverse(0, 0), b, S21Matrix::kEps);
 }
 
@@ -919,8 +919,8 @@ TEST(MatrixOperatorPlus, SumMatrix) {
   }
 
   S21Matrix sum(m1 + m2);
-  EXPECT_EQ(sum.GetRows(), m3.GetRows());
-  EXPECT_EQ(sum.GetCols(), m3.GetCols());
+  EXPECT_EQ(sum.rows(), m3.rows());
+  EXPECT_EQ(sum.cols(), m3.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(sum(i, j), m3(i, j));
@@ -973,8 +973,8 @@ TEST(MatrixOperatorMinus, SubMatrix) {
   }
 
   S21Matrix sub(m1 - m2);
-  EXPECT_EQ(sub.GetRows(), m3.GetRows());
-  EXPECT_EQ(sub.GetCols(), m3.GetCols());
+  EXPECT_EQ(sub.rows(), m3.rows());
+  EXPECT_EQ(sub.cols(), m3.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(sub(i, j), m3(i, j));
@@ -1000,8 +1000,8 @@ TEST(MatrixOperatorMulNum, MulMatrixNum) {
   }
 
   S21Matrix mul(m1 * ratio);
-  EXPECT_EQ(mul.GetRows(), m2.GetRows());
-  EXPECT_EQ(mul.GetCols(), m2.GetCols());
+  EXPECT_EQ(mul.rows(), m2.rows());
+  EXPECT_EQ(mul.cols(), m2.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(mul(i, j), m2(i, j));
@@ -1041,10 +1041,10 @@ TEST(MatrixOperatorMulMatrix, SquareMatrices) {
   }
 
   S21Matrix mul(m1 * m2);
-  EXPECT_EQ(mul.GetRows(), m3.GetRows());
-  EXPECT_EQ(mul.GetCols(), m3.GetCols());
-  for (int i = 0; i < m3.GetRows(); ++i) {
-    for (int j = 0; j < m3.GetCols(); ++j) {
+  EXPECT_EQ(mul.rows(), m3.rows());
+  EXPECT_EQ(mul.cols(), m3.cols());
+  for (int i = 0; i < m3.rows(); ++i) {
+    for (int j = 0; j < m3.cols(); ++j) {
       EXPECT_NEAR(mul(i, j), m3(i, j), S21Matrix::kEps);
     }
   }
@@ -1081,8 +1081,8 @@ TEST(MatrixOperatorMulMatrix, RectangleMatrices) {
   }
 
   S21Matrix mul(m1 * m2);
-  EXPECT_EQ(mul.GetRows(), m3.GetRows());
-  EXPECT_EQ(mul.GetCols(), m3.GetCols());
+  EXPECT_EQ(mul.rows(), m3.rows());
+  EXPECT_EQ(mul.cols(), m3.cols());
   for (int i = 0; i < 3; ++i) {
     for (int j = 0; j < 3; ++j) {
       EXPECT_NEAR(mul(i, j), m3(i, j), S21Matrix::kEps);
@@ -1123,8 +1123,8 @@ TEST(MatrixOperatorEqual, Equal) {
   EXPECT_EQ(m1.EqMatrix(m2), true);
   EXPECT_EQ(m2.EqMatrix(m1), true);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = m2(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
@@ -1136,8 +1136,8 @@ TEST(MatrixOperatorEqual, NotEqual) {
   S21Matrix m1(12, 14);
   S21Matrix m2(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = m2(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
@@ -1146,7 +1146,7 @@ TEST(MatrixOperatorEqual, NotEqual) {
   EXPECT_EQ(m1 == m2, false);
   EXPECT_EQ(m2 == m1, false);
   m1(2, 5) = m2(2, 5);
-  m1(m1.GetRows() - 1, m1.GetCols() - 1) -= 0.0001;
+  m1(m1.rows() - 1, m1.cols() - 1) -= 0.0001;
   EXPECT_EQ(m1 == m2, false);
   EXPECT_EQ(m2 == m1, false);
 }
@@ -1157,16 +1157,16 @@ TEST(MatrixOperatorAssign, SameDimension) {
   S21Matrix m1(12, 14);
   S21Matrix m2(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
       m2(i, j) = 0.12345 - i * 19.141 + j * 8.3;
     }
   }
 
   m2 = m1;
-  EXPECT_EQ(m2.GetRows(), m1.GetRows());
-  EXPECT_EQ(m2.GetCols(), m1.GetCols());
+  EXPECT_EQ(m2.rows(), m1.rows());
+  EXPECT_EQ(m2.cols(), m1.cols());
   EXPECT_TRUE(m2 == m1);
 }
 
@@ -1174,20 +1174,20 @@ TEST(MatrixOperatorAssign, DifferentDimensionLess) {
   S21Matrix m1(12, 14);
   S21Matrix m2(20, 21);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
-  for (int i = 0; i < m2.GetRows(); ++i) {
-    for (int j = 0; j < m2.GetCols(); ++j) {
+  for (int i = 0; i < m2.rows(); ++i) {
+    for (int j = 0; j < m2.cols(); ++j) {
       m2(i, j) = 0.12345 - i * 19.141 + j * 8.3;
     }
   }
 
   m2 = m1;
-  EXPECT_EQ(m2.GetRows(), m1.GetRows());
-  EXPECT_EQ(m2.GetCols(), m1.GetCols());
+  EXPECT_EQ(m2.rows(), m1.rows());
+  EXPECT_EQ(m2.cols(), m1.cols());
   EXPECT_TRUE(m2 == m1);
 }
 
@@ -1195,20 +1195,20 @@ TEST(MatrixOperatorAssign, DifferentDimensionGreater) {
   S21Matrix m1(20, 21);
   S21Matrix m2(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
-  for (int i = 0; i < m2.GetRows(); ++i) {
-    for (int j = 0; j < m2.GetCols(); ++j) {
+  for (int i = 0; i < m2.rows(); ++i) {
+    for (int j = 0; j < m2.cols(); ++j) {
       m2(i, j) = 0.12345 - i * 19.141 + j * 8.3;
     }
   }
 
   m2 = m1;
-  EXPECT_EQ(m2.GetRows(), m1.GetRows());
-  EXPECT_EQ(m2.GetCols(), m1.GetCols());
+  EXPECT_EQ(m2.rows(), m1.rows());
+  EXPECT_EQ(m2.cols(), m1.cols());
   EXPECT_TRUE(m2 == m1);
 }
 
@@ -1216,16 +1216,16 @@ TEST(MatrixOperatorAssign, SelfAssign) {
   S21Matrix m1(12, 14);
   S21Matrix m2(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
       m2(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
 
   m2 = m2;
-  EXPECT_EQ(m2.GetRows(), m1.GetRows());
-  EXPECT_EQ(m2.GetCols(), m1.GetCols());
+  EXPECT_EQ(m2.rows(), m1.rows());
+  EXPECT_EQ(m2.cols(), m1.cols());
   EXPECT_TRUE(m2 == m1);
 }
 
@@ -1236,8 +1236,8 @@ TEST(MatrixMoveOperatorAssign, SameDimension) {
   S21Matrix m2(12, 14);
   S21Matrix m3(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
       m2(i, j) = 0.12345 - i * 19.141 + j * 8.3;
       m3(i, j) = 0.12345 + i * 19.141 + j * 8.3;
@@ -1245,8 +1245,8 @@ TEST(MatrixMoveOperatorAssign, SameDimension) {
   }
 
   m2 = std::move(m1);
-  EXPECT_EQ(m2.GetRows(), m3.GetRows());
-  EXPECT_EQ(m2.GetCols(), m3.GetCols());
+  EXPECT_EQ(m2.rows(), m3.rows());
+  EXPECT_EQ(m2.cols(), m3.cols());
   EXPECT_TRUE(m2 == m3);
 }
 
@@ -1255,21 +1255,21 @@ TEST(MatrixMoveOperatorAssign, DifferentDimensionLess) {
   S21Matrix m2(20, 21);
   S21Matrix m3(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
       m3(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
-  for (int i = 0; i < m2.GetRows(); ++i) {
-    for (int j = 0; j < m2.GetCols(); ++j) {
+  for (int i = 0; i < m2.rows(); ++i) {
+    for (int j = 0; j < m2.cols(); ++j) {
       m2(i, j) = 0.12345 - i * 19.141 + j * 8.3;
     }
   }
 
   m2 = std::move(m1);
-  EXPECT_EQ(m2.GetRows(), m3.GetRows());
-  EXPECT_EQ(m2.GetCols(), m3.GetCols());
+  EXPECT_EQ(m2.rows(), m3.rows());
+  EXPECT_EQ(m2.cols(), m3.cols());
   EXPECT_TRUE(m2 == m3);
 }
 
@@ -1278,21 +1278,21 @@ TEST(MatrixMoveOperatorAssign, DifferentDimensionGreater) {
   S21Matrix m2(12, 14);
   S21Matrix m3(20, 21);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
       m3(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
-  for (int i = 0; i < m2.GetRows(); ++i) {
-    for (int j = 0; j < m2.GetCols(); ++j) {
+  for (int i = 0; i < m2.rows(); ++i) {
+    for (int j = 0; j < m2.cols(); ++j) {
       m2(i, j) = 0.12345 - i * 19.141 + j * 8.3;
     }
   }
 
   m2 = std::move(m1);
-  EXPECT_EQ(m2.GetRows(), m3.GetRows());
-  EXPECT_EQ(m2.GetCols(), m3.GetCols());
+  EXPECT_EQ(m2.rows(), m3.rows());
+  EXPECT_EQ(m2.cols(), m3.cols());
   EXPECT_TRUE(m2 == m3);
 }
 
@@ -1301,16 +1301,16 @@ TEST(MatrixMoveOperatorAssign, SelfAssign) {
   S21Matrix m1(12, 14);
   S21Matrix m2(12, 14);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = 0.12345 + i * 19.141 + j * 8.3;
       m2(i, j) = 0.12345 + i * 19.141 + j * 8.3;
     }
   }
 
   m2 = std::move(m2);
-  EXPECT_EQ(m2.GetRows(), m1.GetRows());
-  EXPECT_EQ(m2.GetCols(), m1.GetCols());
+  EXPECT_EQ(m2.rows(), m1.rows());
+  EXPECT_EQ(m2.cols(), m1.cols());
   EXPECT_TRUE(m2 == m1);
 }
 */
@@ -1359,8 +1359,8 @@ TEST(MatrixOperatorPlusAssign, SumMatrix) {
   }
 
   m1 += m2;
-  EXPECT_EQ(m1.GetRows(), m3.GetRows());
-  EXPECT_EQ(m1.GetCols(), m3.GetCols());
+  EXPECT_EQ(m1.rows(), m3.rows());
+  EXPECT_EQ(m1.cols(), m3.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m1(i, j), m3(i, j));
@@ -1412,8 +1412,8 @@ TEST(MatrixOperatorMinusAssign, SumMatrix) {
   }
 
   m1 -= m2;
-  EXPECT_EQ(m1.GetRows(), m3.GetRows());
-  EXPECT_EQ(m1.GetCols(), m3.GetCols());
+  EXPECT_EQ(m1.rows(), m3.rows());
+  EXPECT_EQ(m1.cols(), m3.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m1(i, j), m3(i, j));
@@ -1438,8 +1438,8 @@ TEST(MatrixOperatorMulAssignNum, MulMatrixNum) {
   }
 
   m1 *= ratio;
-  EXPECT_EQ(m1.GetRows(), m2.GetRows());
-  EXPECT_EQ(m1.GetCols(), m2.GetCols());
+  EXPECT_EQ(m1.rows(), m2.rows());
+  EXPECT_EQ(m1.cols(), m2.cols());
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       EXPECT_EQ(m1(i, j), m2(i, j));
@@ -1478,10 +1478,10 @@ TEST(MatrixOperatorMulAssignMatrix, SquareMatrices) {
   }
 
   m1 *= m2;
-  EXPECT_EQ(m1.GetRows(), m3.GetRows());
-  EXPECT_EQ(m1.GetCols(), m3.GetCols());
-  for (int i = 0; i < m3.GetRows(); ++i) {
-    for (int j = 0; j < m3.GetCols(); ++j) {
+  EXPECT_EQ(m1.rows(), m3.rows());
+  EXPECT_EQ(m1.cols(), m3.cols());
+  for (int i = 0; i < m3.rows(); ++i) {
+    for (int j = 0; j < m3.cols(); ++j) {
       EXPECT_NEAR(m1(i, j), m3(i, j), S21Matrix::kEps);
     }
   }
@@ -1518,10 +1518,10 @@ TEST(MatrixOperatorMulAssignMatrix, RectangleMatrices) {
   }
 
   m1 *= m2;
-  EXPECT_EQ(m1.GetRows(), m3.GetRows());
-  EXPECT_EQ(m1.GetCols(), m3.GetCols());
-  for (int i = 0; i < m3.GetRows(); ++i) {
-    for (int j = 0; j < m3.GetCols(); ++j) {
+  EXPECT_EQ(m1.rows(), m3.rows());
+  EXPECT_EQ(m1.cols(), m3.cols());
+  for (int i = 0; i < m3.rows(); ++i) {
+    for (int j = 0; j < m3.cols(); ++j) {
       EXPECT_NEAR(m1(i, j), m3(i, j), S21Matrix::kEps);
     }
   }
@@ -1562,8 +1562,8 @@ TEST(MatrixOperatorParentheses, NormalIndex) {
   S21Matrix m1(100, 77);
   const S21Matrix m2(100, 77);
 
-  for (int i = 0; i < m1.GetRows(); ++i) {
-    for (int j = 0; j < m1.GetCols(); ++j) {
+  for (int i = 0; i < m1.rows(); ++i) {
+    for (int j = 0; j < m1.cols(); ++j) {
       m1(i, j) = static_cast<double>(i) + static_cast<double>(j);
     }
   }
