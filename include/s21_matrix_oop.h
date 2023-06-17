@@ -10,7 +10,7 @@ class S21Matrix {
   S21Matrix(void);
   explicit S21Matrix(int rows, int cols);
   S21Matrix(const S21Matrix& other);
-  S21Matrix(S21Matrix&& other);
+  S21Matrix(S21Matrix&& other) noexcept;
   S21Matrix& operator=(const S21Matrix& other);
   S21Matrix& operator=(S21Matrix&& other) noexcept;
 
@@ -55,4 +55,3 @@ class S21Matrix {
 };
 
 #endif  // S21_MATRIX_OOP_H_
-

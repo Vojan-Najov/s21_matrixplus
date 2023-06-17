@@ -589,17 +589,17 @@ TEST(MatrixTranspose, RectangleMatrix) {
 // Tests for CalcComplemnts
 
 TEST(MatrixCalcComplements, Matrix1x1) {
-	S21Matrix m1(1, 1);
-	S21Matrix m2(1, 1);
+  S21Matrix m1(1, 1);
+  S21Matrix m2(1, 1);
 
-	m1(0,0) = 0.0;
-	EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
+  m1(0, 0) = 0.0;
+  EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
 
-	m2(0,0) = 100.0;
-	S21Matrix comp = m2.CalcComplements();
-	EXPECT_EQ(comp.GetRows(), 1);
-	EXPECT_EQ(comp.GetCols(), 1);
-	EXPECT_EQ(comp(0, 0), 1.0);
+  m2(0, 0) = 100.0;
+  S21Matrix comp = m2.CalcComplements();
+  EXPECT_EQ(comp.GetRows(), 1);
+  EXPECT_EQ(comp.GetCols(), 1);
+  EXPECT_EQ(comp(0, 0), 1.0);
 }
 
 TEST(MatrixCalcComplements, Matrix2x2) {
@@ -686,11 +686,11 @@ TEST(MatrixCalcComplements, Matrix5x5) {
 }
 
 TEST(MatrixCalcComplements, RectangleMatrix) {
-	S21Matrix m1(19, 18);
-	S21Matrix m2(21, 43);
+  S21Matrix m1(19, 18);
+  S21Matrix m2(21, 43);
 
-	EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
-	EXPECT_THROW(m2.CalcComplements(), std::invalid_argument);
+  EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
+  EXPECT_THROW(m2.CalcComplements(), std::invalid_argument);
 }
 
 // Tests for Determinant
@@ -716,7 +716,6 @@ TEST(MatrixDeterminant, Matrix2x2) {
   EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
 }
 
-
 TEST(MatrixDeterminant, Matrix3x3) {
   double a[3][3] = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {5.0, 7.0, 9.0}};
   double dt = 0.0;
@@ -732,7 +731,7 @@ TEST(MatrixDeterminant, Matrix3x3) {
 
 TEST(MatrixDeterminant, Matrix5x5) {
   double a[5][5] = {{3.0, 2.0, -6.0, 2.0, -6.0},
-                    {-4.0, 17.0, 7.0, 17.0, 7.0}, 
+                    {-4.0, 17.0, 7.0, 17.0, 7.0},
                     {1.0, 2.0, 9.0, -3.0, 4.0},
                     {12.0, 3.0, 3.0, 2.0, 9.0},
                     {-1.0, -2.0, 4.0, 8.0, -1.0}};
@@ -759,7 +758,7 @@ TEST(MatrixDeterminant, Matrix6x6) {
   S21Matrix m(6, 6);
   for (int i = 0; i < 6; ++i) {
     for (int j = 0; j < 6; ++j) {
-	  m(i, j) = a[i][j];
+      m(i, j) = a[i][j];
     }
   }
   EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
@@ -777,18 +776,18 @@ TEST(MatrixDeterminant, Matrix6x6_2) {
   S21Matrix m(6, 6);
   for (int i = 0; i < 6; ++i) {
     for (int j = 0; j < 6; ++j) {
-	  m(i, j) = a[i][j];
+      m(i, j) = a[i][j];
     }
   }
   EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
 }
 
 TEST(MatrixDeterminant, RectangleMatrix) {
-	S21Matrix m1(1, 2);
-	S21Matrix m2(115, 23);
+  S21Matrix m1(1, 2);
+  S21Matrix m2(115, 23);
 
-	EXPECT_THROW(m1.Determinant(), std::invalid_argument);
-	EXPECT_THROW(m2.Determinant(), std::invalid_argument);
+  EXPECT_THROW(m1.Determinant(), std::invalid_argument);
+  EXPECT_THROW(m2.Determinant(), std::invalid_argument);
 }
 
 // Tests for InverseMatrix
@@ -813,8 +812,8 @@ TEST(MatrixInverse, Matrix3x3) {
   S21Matrix mb(3, 3);
   for (int i = 0; i < 3; ++i) {
     for (int j = 0; j < 3; ++j) {
-		ma(i, j) = a[i][j];
-		mb(i, j) = b[i][j];
+      ma(i, j) = a[i][j];
+      mb(i, j) = b[i][j];
     }
   }
 
@@ -838,15 +837,15 @@ TEST(MatrixInverse, Matrix6x6) {
   S21Matrix mb(6, 6);
   for (int i = 0; i < 6; ++i) {
     for (int j = 0; j < 6; ++j) {
-		ma(i, j) = a[i][j];
-		mb(i, j) = b[i][j];
+      ma(i, j) = a[i][j];
+      mb(i, j) = b[i][j];
     }
   }
 
   S21Matrix inverse = ma.InverseMatrix();
   for (int i = 0; i < 6; ++i) {
     for (int j = 0; j < 6; ++j) {
-	  EXPECT_NEAR(inverse(i, j), b[i][j], 1.0e-3);
+      EXPECT_NEAR(inverse(i, j), b[i][j], 1.0e-3);
     }
   }
 }
@@ -857,7 +856,7 @@ TEST(MatrixInverse, NoExist) {
   S21Matrix m(3, 3);
   for (int i = 0; i < 3; ++i) {
     for (int j = 0; j < 3; ++j) {
-		m(i, j) = a[i][j];
+      m(i, j) = a[i][j];
     }
   }
 
@@ -865,15 +864,15 @@ TEST(MatrixInverse, NoExist) {
 }
 
 TEST(MatrixInverse, NoExist2) {
-	S21Matrix m1(1, 1);
-	m1(0, 0) = 0.0;
-	EXPECT_THROW(m1.InverseMatrix(), std::invalid_argument);
+  S21Matrix m1(1, 1);
+  m1(0, 0) = 0.0;
+  EXPECT_THROW(m1.InverseMatrix(), std::invalid_argument);
 
-	S21Matrix m2(13, 10);
-	EXPECT_THROW(m2.InverseMatrix(), std::invalid_argument);
+  S21Matrix m2(13, 10);
+  EXPECT_THROW(m2.InverseMatrix(), std::invalid_argument);
 
-	S21Matrix m3(9, 10);
-	EXPECT_THROW(m3.InverseMatrix(), std::invalid_argument);
+  S21Matrix m3(9, 10);
+  EXPECT_THROW(m3.InverseMatrix(), std::invalid_argument);
 }
 
 // Tests for operator+
