@@ -588,9 +588,293 @@ TEST(MatrixTranspose, RectangleMatrix) {
 
 // Tests for CalcComplemnts
 
+TEST(MatrixCalcComplements, Matrix1x1) {
+	S21Matrix m1(1, 1);
+	S21Matrix m2(1, 1);
+
+	m1(0,0) = 0.0;
+	EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
+
+	m2(0,0) = 100.0;
+	S21Matrix comp = m2.CalcComplements();
+	EXPECT_EQ(comp.GetRows(), 1);
+	EXPECT_EQ(comp.GetCols(), 1);
+	EXPECT_EQ(comp(0, 0), 1.0);
+}
+
+TEST(MatrixCalcComplements, Matrix2x2) {
+  double a[2][2] = {{15.87, 78.98}, {47.25, -45.478}};
+  double b[2][2] = {{-45.478, -47.25}, {-78.98, 15.87}};
+
+  S21Matrix ma(2, 2);
+  S21Matrix mb(2, 2);
+  for (int i = 0; i < 2; ++i) {
+    for (int j = 0; j < 2; ++j) {
+      ma(i, j) = a[i][j];
+      mb(i, j) = b[i][j];
+    }
+  }
+
+  S21Matrix comp = ma.CalcComplements();
+  EXPECT_TRUE(comp == mb);
+}
+
+TEST(MatrixCalcComplements, Matrix3x3) {
+  double a[3][3] = {{1., 2., 3.}, {0., 4., 2.}, {5., 2., 1.}};
+  double b[3][3] = {{0., 10., -20.}, {4., -14., 8.}, {-8., -2., 4.}};
+
+  S21Matrix ma(3, 3);
+  S21Matrix mb(3, 3);
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      ma(i, j) = a[i][j];
+      mb(i, j) = b[i][j];
+    }
+  }
+
+  S21Matrix comp = ma.CalcComplements();
+  EXPECT_TRUE(comp == mb);
+}
+
+TEST(MatrixCalcComplements, Matrix4x4) {
+  double a[4][4] = {
+      {4., 5., 9., 8.}, {4., 1., 2., 3.}, {8., 7., 15., 4.}, {7., 6., 4., 9}};
+  double b[4][4] = {{-145., -169., 109., 177.},
+                    {252., -504., 72., 108.},
+                    {47., 95., 25., -111.},
+                    {24., 276., -132., -36.}};
+
+  S21Matrix ma(4, 4);
+  S21Matrix mb(4, 4);
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      ma(i, j) = a[i][j];
+      mb(i, j) = b[i][j];
+    }
+  }
+
+  S21Matrix comp = ma.CalcComplements();
+  EXPECT_TRUE(comp == mb);
+}
+
+TEST(MatrixCalcComplements, Matrix5x5) {
+  double a[5][5] = {{78., 951., 147., 47., 52.},
+                    {76., 98., 78., 753., -89.},
+                    {87., 457., 253., 984., -71.},
+                    {47., 453., 786., 123., 357.},
+                    {765., -896., 783., 478., 456}};
+  double b[5][5] = {
+      {892211883., -9088259207., 44376427597., -13166556043., -81751647719.},
+      {97617917421., -13672761316., 251606522691., -104032036661.,
+       -513616435766.},
+      {-71997449493., 10510919457., -193843105045., 72992451018.,
+       397773228858.},
+      {25486500814., -1504267981., 29580687324., -14989913303., -80792756249.},
+      {-12212500158., 1182045334., -9293332343., 4297527901., 19088191207}};
+
+  S21Matrix ma(5, 5);
+  S21Matrix mb(5, 5);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      ma(i, j) = a[i][j];
+      mb(i, j) = b[i][j];
+    }
+  }
+
+  S21Matrix comp = ma.CalcComplements();
+  EXPECT_TRUE(comp == mb);
+}
+
+TEST(MatrixCalcComplements, RectangleMatrix) {
+	S21Matrix m1(19, 18);
+	S21Matrix m2(21, 43);
+
+	EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
+	EXPECT_THROW(m2.CalcComplements(), std::invalid_argument);
+}
+
 // Tests for Determinant
 
+TEST(MatrixDeterminant, Matrix1x1) {
+  double dt = 1183.2019381738;
+  S21Matrix m(1, 1);
+
+  m(0, 0) = dt;
+  EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
+}
+
+TEST(MatrixDeterminant, Matrix2x2) {
+  double a[2][2] = {{179.38, 18.91}, {2.18821, 472.9428}};
+  double dt = 84795.1004129;
+  S21Matrix m(2, 2);
+
+  for (int i = 0; i < 2; ++i) {
+    for (int j = 0; j < 2; ++j) {
+      m(i, j) = a[i][j];
+    }
+  }
+  EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
+}
+
+
+TEST(MatrixDeterminant, Matrix3x3) {
+  double a[3][3] = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {5.0, 7.0, 9.0}};
+  double dt = 0.0;
+  S21Matrix m(3, 3);
+
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      m(i, j) = a[i][j];
+    }
+  }
+  EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
+}
+
+TEST(MatrixDeterminant, Matrix5x5) {
+  double a[5][5] = {{3.0, 2.0, -6.0, 2.0, -6.0},
+                    {-4.0, 17.0, 7.0, 17.0, 7.0}, 
+                    {1.0, 2.0, 9.0, -3.0, 4.0},
+                    {12.0, 3.0, 3.0, 2.0, 9.0},
+                    {-1.0, -2.0, 4.0, 8.0, -1.0}};
+  double dt = -158255.0;
+
+  S21Matrix m(5, 5);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      m(i, j) = a[i][j];
+    }
+  }
+  EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
+}
+
+TEST(MatrixDeterminant, Matrix6x6) {
+  double a[6][6] = {{1.1, 1.2, 1.3, 1.4, 1.5, 1.6},
+                    {2.8, -2.9, -2.3, -2.4, 2.5, 2.7},
+                    {3.33, 3.2, -3.87, 3.99, 3.47, -3.02},
+                    {4.85, 4.23, 4.32, -4.18, 4.89, 4.23},
+                    {5.12, 5.32, 5.28, 5.67, -5.73, 5.91},
+                    {6.15, -6.53, 6.44, 6.32, 6.78, 6.98}};
+  double dt = -77591.0 - (269266237810933.0 / 3733527061589101.0);
+
+  S21Matrix m(6, 6);
+  for (int i = 0; i < 6; ++i) {
+    for (int j = 0; j < 6; ++j) {
+	  m(i, j) = a[i][j];
+    }
+  }
+  EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
+}
+
+TEST(MatrixDeterminant, Matrix6x6_2) {
+  double a[6][6] = {{0.0, 1.2, 1.3, 1.4, 1.5, 1.6},
+                    {0.0, -2.9, -2.3, -2.4, 2.5, 2.7},
+                    {0.0, 3.2, -3.87, 3.99, 3.47, -3.02},
+                    {0.0, 4.23, 4.32, -4.18, 4.89, 4.23},
+                    {0.0, 5.32, 5.28, 5.67, -5.73, 5.91},
+                    {0.0, -6.53, 6.44, 6.32, 6.78, 6.98}};
+  double dt = 0.0;
+
+  S21Matrix m(6, 6);
+  for (int i = 0; i < 6; ++i) {
+    for (int j = 0; j < 6; ++j) {
+	  m(i, j) = a[i][j];
+    }
+  }
+  EXPECT_NEAR(dt, m.Determinant(), S21Matrix::kEps);
+}
+
+TEST(MatrixDeterminant, RectangleMatrix) {
+	S21Matrix m1(1, 2);
+	S21Matrix m2(115, 23);
+
+	EXPECT_THROW(m1.Determinant(), std::invalid_argument);
+	EXPECT_THROW(m2.Determinant(), std::invalid_argument);
+}
+
 // Tests for InverseMatrix
+
+TEST(MatrixInverse, Matrix1x1) {
+  double a = 125480.4;
+  double b = 5.0 / 627402.0;
+
+  S21Matrix m(1, 1);
+  m(0, 0) = a;
+  S21Matrix inverse = m.InverseMatrix();
+  EXPECT_EQ(inverse.GetRows(), m.GetRows());
+  EXPECT_EQ(inverse.GetCols(), m.GetCols());
+  EXPECT_NEAR(inverse(0, 0), b, S21Matrix::kEps);
+}
+
+TEST(MatrixInverse, Matrix3x3) {
+  double a[3][3] = {{2., 5., 7.}, {6., 3., 4.}, {5., -2., -3.}};
+  double b[3][3] = {{1., -1., 1.}, {-38., 41., -34.}, {27., -29., 24.}};
+
+  S21Matrix ma(3, 3);
+  S21Matrix mb(3, 3);
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+		ma(i, j) = a[i][j];
+		mb(i, j) = b[i][j];
+    }
+  }
+
+  S21Matrix inverse = ma.InverseMatrix();
+  EXPECT_TRUE(inverse == mb);
+}
+
+TEST(MatrixInverse, Matrix6x6) {
+  double a[6][6] = {
+      {12., 47., 58., 47., 42., 14.},   {47., 59., 63., 54., 89., 12.},
+      {15., 56., -65., -97., 32., 16.}, {58., 75., -24., 45., -16., 8.},
+      {78., 93., 17., 13., -11., 7.},   {84., 65., 19., -35., 54., 18.}};
+  double b[6][6] = {{-0.01, -0.001, -0.009, 0.006, -0.005, 0.016},
+                    {0.0, 0.008, 0.01, -0.007, 0.018, -0.018},
+                    {0.009, -0.005, -0.004, -0.014, 0.011, 0.002},
+                    {0.001, 0.003, -0.004, 0.012, -0.009, -0.001},
+                    {-0.011, 0.017, 0.005, -0.001, -0.004, -0.005},
+                    {0.075, -0.067, -0.012, 0.04, -0.061, 0.058}};
+
+  S21Matrix ma(6, 6);
+  S21Matrix mb(6, 6);
+  for (int i = 0; i < 6; ++i) {
+    for (int j = 0; j < 6; ++j) {
+		ma(i, j) = a[i][j];
+		mb(i, j) = b[i][j];
+    }
+  }
+
+  S21Matrix inverse = ma.InverseMatrix();
+  for (int i = 0; i < 6; ++i) {
+    for (int j = 0; j < 6; ++j) {
+	  EXPECT_NEAR(inverse(i, j), b[i][j], 1.0e-3);
+    }
+  }
+}
+
+TEST(MatrixInverse, NoExist) {
+  double a[3][3] = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {5.0, 7.0, 9.0}};
+
+  S21Matrix m(3, 3);
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+		m(i, j) = a[i][j];
+    }
+  }
+
+  EXPECT_THROW(m.InverseMatrix(), std::invalid_argument);
+}
+
+TEST(MatrixInverse, NoExist2) {
+	S21Matrix m1(1, 1);
+	m1(0, 0) = 0.0;
+	EXPECT_THROW(m1.InverseMatrix(), std::invalid_argument);
+
+	S21Matrix m2(13, 10);
+	EXPECT_THROW(m2.InverseMatrix(), std::invalid_argument);
+
+	S21Matrix m3(9, 10);
+	EXPECT_THROW(m3.InverseMatrix(), std::invalid_argument);
+}
 
 // Tests for operator+
 
