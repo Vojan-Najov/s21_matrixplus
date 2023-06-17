@@ -362,13 +362,6 @@ void S21Matrix::_swapMatrix(S21Matrix& other) noexcept {
 }
 
 S21Matrix S21Matrix::Minor(int row, int col) const {
-	if (rows_ != cols_) {
-		throw std::invalid_argument("The matrix is not square.");
-	}
-	if (rows_ == 1) {
-		throw std::invalid_argument("There is no minor to the unit matrix.");
-	}
-
 	S21Matrix minor(cols_ - 1, rows_ - 1);
 	for (int i = 0, k = 0; i < rows_ - 1; ++i, ++k) {
 		for (int j = 0, l = 0; j < cols_ - 1; ++j, ++l) {
