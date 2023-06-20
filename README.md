@@ -10,7 +10,7 @@ Implementation of the matrix library using the object-oriented approach.
 ## Solution
 
 - [Hedear](./include/s21_matrix_oop.h)
-- [Source](./src/s21_matrix_oop.c)
+- [Source](./src/s21_matrix_oop.cc)
 - [Tests](./tests/s21_matrix_oop_test.cc)
 
 `$> make` for build library s21_matrix_oop.a. \
