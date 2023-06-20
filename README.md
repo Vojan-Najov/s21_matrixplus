@@ -7,6 +7,17 @@ Implementation of the matrix library using the object-oriented approach.
 - [Subject en](./subject_en.md)
 - [Subject ru](./subject_ru.md)
 
+## Solution
+
+- [Hedear](./include/s21_matrix_oop.h)
+- [Source](./src/s21_matrix_oop.c)
+- [Tests](./tests/s21_matrix_oop_test.cc)
+
+`$> make` for build library s21_matrix_oop.a.
+`$> make test` for run tests. \
+  The unit tests are written using the `googleTest` framework.
+`$> make gcov_report` for run a code coverage report using `lcov`.
+
 ## Materials
 
 - [oop basics en](./materials/oop_basics.md)
