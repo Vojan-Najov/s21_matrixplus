@@ -3,7 +3,7 @@ TEST = test
 REPORT = gcov_report
 
 CXX = gcc
-#RM = rm -f
+RM = rm -f
 RMDIR = rm -rf
 MKDIR = mkdir -p
 AR = ar rcs
